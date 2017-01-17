@@ -1,7 +1,5 @@
 <?php
 class inputValidator {
-
-
 	public function stripTags($data)
 	{
 		return strip_tags($data);
@@ -12,5 +10,4 @@ class inputValidator {
 	}
 	
 }
-
 ?>
