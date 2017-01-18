@@ -23,8 +23,8 @@ class User {
     
 	public static function addUser($user){
         $db = Db::getInstance();
-	    $stmt = $db->prepare("INSERT INTO database (username, password, email, phonenumber, date) VALUES (:name, :pwd, :email, :phone, :date)");
-		$stmt->bindParam(':username', $username);
+	    $stmt = $db->prepare("INSERT INTO users(username, password, email, phonenumber, date) VALUES (:name, :pwd, :email, :phone, :date)");
+		$stmt->bindParam(':username', $name);
 		$stmt->bindParam(':pwd', $pwd);
 		$stmt->bindParam(':email', $email);
 		$stmt->bindParam(':phone', $phone);
