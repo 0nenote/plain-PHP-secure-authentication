@@ -1,4 +1,4 @@
-# A simple plain PHP authentication system using the MVC and OWASP practices.
+# A  plain PHP authentication system using MVC and OWASP practices.
 ###### Security Minor - KB57
 
 **Directory structure**

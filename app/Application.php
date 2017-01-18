@@ -24,7 +24,8 @@ class Application {
                 $this->controller = "user_controller";
                 break;
             default : 
-                 $this->controller ="home_controller";
+                 $this->controller = "home_controller";
+                
         }
         if(file_exists('controllers/' . $this->controller .'.php')){
             unset($url[0]);

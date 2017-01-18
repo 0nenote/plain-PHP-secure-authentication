@@ -8,5 +8,6 @@ class User extends Controller {
 	public function add($username,$pwd,$email,$phone){
 	
 	}
+
 }
 ?>
