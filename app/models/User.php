@@ -43,7 +43,7 @@ class User {
       return new User($user['id'], $user['name'], $user['email'],$user['password'],$user['phone'],$user['last_active']);  
     }
     
-     public static function isValid($email,$password){
+     public static function authenticate($email, $password){
       $db = Db::getInstance();
       $req = $db->prepare('SELECT email,password FROM users WHERE email = :email');
       $req->execute(array('email' => $email));

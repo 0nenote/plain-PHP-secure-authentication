@@ -12,15 +12,15 @@ class UserController extends Controller {
 		$tz_object = new DateTimeZone('Europe/Amsterdam');
 		$datetime = new DateTime();
 		$datetime->setTimezone($tz_object);
-			
+        User::addUser($user);
     }
     
     public function findUser($id){
         
     }
     
-    public function authenticate($email,$password){
-        $isValid = User::isValid($email,$password);
+    public function login($email,$password){
+        $isValid = User::authenticate($email,$password);
         if($isValid){
             echo 'YEAH!';
         } else{
