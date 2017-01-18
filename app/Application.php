@@ -1,5 +1,5 @@
 <?php
-require_once('controllers/Controller.php');
+require_once('controllers/controller.php');
 
 class Application {
     
@@ -31,10 +31,11 @@ class Application {
             unset($url[0]);
         }
         
-        require_once 'controllers/' . $this->controller . '.php';
+         require_once 'controllers/' . $this->controller . '.php';
          $splitctrl  = explode('_', $this->controller);
-         $ctrName =  ucfirst($splitctrl[0]);
+         $ctrName =  ucfirst($splitctrl[0]).'Controller';
          
+          require_once('models/user.php');
          $this->controller = new $ctrName;
         
         

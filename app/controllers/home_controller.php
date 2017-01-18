@@ -1,5 +1,5 @@
 <?php
-class Home extends Controller {
+class HomeController extends Controller {
     
     public function index(){
         echo 'Home/index';
