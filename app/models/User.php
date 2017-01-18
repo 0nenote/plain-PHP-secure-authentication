@@ -7,7 +7,6 @@ class User {
     private $pass;
     private $phone;
     private $lastActive;
-    private $db;
     
     public function __construct($id = 0, $name = '', $email='',$pass='',$phone='',$lastActive='') {
       $this->id         = $id;
@@ -15,16 +14,24 @@ class User {
       $this->email      = $email;
       $this->pass       = $pass;
       $this->phone      = $phone;
-      $this->lastActive = $lastActive;
-      $this->db         = Db::getInstance();    
+      $this->lastActive = $lastActive;   
     }
 
     public function index(){
         echo "User/index";
     }
     
-	public function addUser($email,$pwd,$name,$phone){
-	   
+	public static function addUser($user){
+        $db = Db::getInstance();
+	    $stmt = $db->prepare("INSERT INTO database (username, password, email, phonenumber, date) VALUES (:name, :pwd, :email, :phone, :date)");
+		$stmt->bindParam(':username', $username);
+		$stmt->bindParam(':pwd', $pwd);
+		$stmt->bindParam(':email', $email);
+		$stmt->bindParam(':phone', $phone);
+		$stmt->bindParam(':phone', $phone);
+		$stmt->bindParam(':date', $datetime->format('Y\-m\-d\ h:i:s'));
+		
+		$stmt->execute();
 	}
     
     public function findUserById($id){
