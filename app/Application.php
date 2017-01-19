@@ -27,8 +27,9 @@ class Application {
                  $this->controller = "home_controller";
                 
         }
-        if(file_exists('controllers/' . $this->controller .'.php')){
-            unset($url[0]);
+        
+        if (stream_resolve_include_path('controllers/home_controller.php')) { 
+             unset($url[0]);
         }
         
          require_once 'controllers/' . $this->controller . '.php';
@@ -37,7 +38,6 @@ class Application {
          
           require_once('models/user.php');
          $this->controller = new $ctrName;
-        
         
         if(isset($url[1])){
             if(method_exists($this->controller, $url[1])){
@@ -51,7 +51,7 @@ class Application {
     
     protected function parseUrl(){
         if(isset($_GET['url'])){
-           return $url = explode('/',filter_var(rtrim($_GET['url'],'/'),FILTER_SANITIZE_URL));
+           return $url = explode('/',filter_var(rtrim($_GET['url'],'/'), FILTER_SANITIZE_URL));
         }        
     }
 }

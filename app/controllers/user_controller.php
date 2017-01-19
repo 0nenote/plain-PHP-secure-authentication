@@ -19,12 +19,4 @@ class UserController extends Controller {
         
     }
     
-    public function login($email,$password){
-        $isValid = User::authenticate($email,$password);
-        if($isValid){
-            echo 'YEAH!';
-        } else{
-            echo 'NOPE!';
-        }
-    }
 }

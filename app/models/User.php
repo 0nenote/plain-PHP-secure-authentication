@@ -48,9 +48,13 @@ class User {
       $req = $db->prepare('SELECT email,password FROM users WHERE email = :email');
       $req->execute(array('email' => $email));
       $user= $req->fetch();
-        if(password_verify($password, $user['password'])){
+        if($password === $user['password']){
             return true;
         } else{
+            if($user['password'] === $password){
+                  echo $user['password'] . ' ' . $user['email'];
+            }
+          
             return false;
         }     
     }
