@@ -8,14 +8,31 @@ class UserController extends Controller {
         echo "User/index";
     }
     
-	public function register($username,$pwd,$email,$phone){
-		$tz_object = new DateTimeZone('Europe/Amsterdam');
-		$datetime = new DateTime();
-		$datetime->setTimezone($tz_object);
-        User::addUser($user);
+	public function register($username,$email,$pwd,$phone){
+		
+		$today = date("Y-m-d H:i:s");   
+		$user = new User(0, $username, $email, $pwd, $phone, $today);
+		$userAdded = $user->addUser();
+		if($userAdded){
+			echo 'adding user succeeded!!!!!!! yayyyy party time';
+		} else {
+			echo 'adding user failed';
+		}
     }
     
     public function findUser($id){
+		
+		$userFound = User::findUserById($id);
+		
+		if(!empty($userFound->getId())){
+			echo "user asdsdfghjhgfds";
+		}
+		
+		
+	
+	
+		
+		
         
     }
     

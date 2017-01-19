@@ -1,5 +1,6 @@
 <?php
-class User {
+
+class User extends Model{
 
     private $id;
     private $name;
@@ -10,37 +11,68 @@ class User {
     
     public function __construct($id = 0, $name = '', $email='',$pass='',$phone='',$lastActive='') {
       $this->id         = $id;
-      $this->name       = $author;
+      $this->name       = $name;
       $this->email      = $email;
       $this->pass       = $pass;
       $this->phone      = $phone;
       $this->lastActive = $lastActive;   
     }
+	
+	public function getName(){
+		return $this->name;
+	}
+	public function getEmail(){
+		return $this->email;
+	}
+	public function getPass(){
+		return $this->pass;
+	}
+	public function getPhone(){
+		return $this->phone;
+	}
+	public function getLastActive(){
+		return $this->lastActive;
+	}
+	public function getId(){
+		return $this->id;
+	
+	}
 
     public function index(){
         echo "User/index";
     }
     
-	public static function addUser($user){
-        $db = Db::getInstance();
-	    $stmt = $db->prepare("INSERT INTO users(username, password, email, phonenumber, date) VALUES (:name, :pwd, :email, :phone, :date)");
-		$stmt->bindParam(':username', $name);
-		$stmt->bindParam(':pwd', $pwd);
-		$stmt->bindParam(':email', $email);
-		$stmt->bindParam(':phone', $phone);
-		$stmt->bindParam(':phone', $phone);
-		$stmt->bindParam(':date', $datetime->format('Y\-m\-d\ h:i:s'));
+	public function addUser(){
+        
 		
+		if(Model::checkEmail($this->email) && Model::checkLetters($this->name) && Model::checkPhone($this->phone) && Model::checkPass($this->pass)){
+		$db = Db::getInstance();
+	    $stmt = $db->prepare("INSERT INTO dbe1kmonon1.users(username, password, email, phonenumber, date) VALUES (:name, :pwd, :email, :phone, :date)");
+		$stmt->bindParam(':name', $this->name);
+		$stmt->bindParam(':pwd', $this->pass);
+		$stmt->bindParam(':email', $this->email);
+		$stmt->bindParam(':phone', $this->phone);	
+		$stmt->bindParam(':date', $this->lastActive);
+
 		$stmt->execute();
+		return true;
+		}
+		else{
+			return false;
+		}
+		
+
+		
 	}
     
     public function findUserById($id){
       $id = intval($id);
+	  $db = Db::getInstance();
       $req = $db->prepare('SELECT * FROM users WHERE id = :id');
       $req->execute(array('id' => $id));
       $user= $req->fetch();
-
-      return new User($user['id'], $user['name'], $user['email'],$user['password'],$user['phone'],$user['last_active']);  
+	  
+      return new User($user['id'], $user['username'], $user['email'],$user['password'],$user['phonenumber'],$user['date']);  
     }
     
      public static function authenticate($email, $password){

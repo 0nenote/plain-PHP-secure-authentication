@@ -27,7 +27,7 @@ class Application {
                  $this->controller = "home_controller";
                 
         }
-        if(file_exists('controllers/' . $this->controller .'.php')){
+        if(stream_resolve_include_path('controllers/' . $this->controller .'.php')){
             unset($url[0]);
         }
         
@@ -35,7 +35,9 @@ class Application {
          $splitctrl  = explode('_', $this->controller);
          $ctrName =  ucfirst($splitctrl[0]).'Controller';
          
+		 require_once('models/model.php');
           require_once('models/user.php');
+		  
          $this->controller = new $ctrName;
         
         
