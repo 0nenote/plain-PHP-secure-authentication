@@ -11,15 +11,35 @@ class Message extends Model{
 	
 	public function insertMessage($message, $today){
 		$db = Db::getInstance();
-		$stmt = $db->prepare("INSERT INTO comments(comment, date) VALUES (:comment, :date)");
+		
+		/********************************/ 			  // XSS mitigation part
+		$strippedMessage= Model::stripTags($message); //strip HTML tags from message 
+		
+		/********************************/
+		
+		$stmt = $db->prepare("INSERT INTO comments(comment, postDate) VALUES (:comment, :date)");
 
-		$stmt->bindParam(':comment', $message);
+		$stmt->bindParam(':comment', $strippedMessage);
 		$stmt->bindParam(':date', $today);
-		$stmt->execute();
+		
+		return $stmt->execute();
 	}
 	
 	public function deleteMessage($id){
-		// coger el id y comprar con la table y después borrarlo
+		$db = Db::getInstance();
+		
+		
+		/********************************/ 	// XSS mitigation part
+		$strippedId= Model::stripTags($id); //strip HTML tags from message 
+		
+		/********************************/
+		
+		$stmt = $db->prepare("DELETE FROM comments WHERE id = :id");
+		
+		$stmt->bindParam(':id', $strippedId);
+		return $stmt->execute();
+		
+		
 	}
 	
 }

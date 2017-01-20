@@ -23,6 +23,9 @@ class Application {
             case "user" :
                 $this->controller = "user_controller";
                 break;
+			case "message" :
+                $this->controller = "message_controller";
+                break;
             default : 
                  $this->controller = "home_controller";
                 
@@ -37,7 +40,8 @@ class Application {
          $ctrName =  ucfirst($splitctrl[0]).'Controller';
          
 		 require_once('models/model.php');
-          require_once('models/user.php');
+         require_once('models/user.php');
+		 require_once('models/message.php');
 		  
          $this->controller = new $ctrName;
         

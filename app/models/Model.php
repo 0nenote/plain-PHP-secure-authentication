@@ -21,6 +21,17 @@ class Model {
 		
 	}
 	
+	public function checkLettersAndNumbers($data){
+		if(preg_match('/^[a-zA-Z0-9]+$/', $data)){ //check if only letters from a-z A-Z and numbers are used
+			return true;
+		}
+		else{
+			return false;
+		}
+		
+	}
+	
+	
 	public function checkEmail($data){
 		if(filter_var($data, FILTER_VALIDATE_EMAIL)){ //check if valid email
 		
