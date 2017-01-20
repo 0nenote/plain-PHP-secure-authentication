@@ -61,8 +61,21 @@ class User extends Model{
 		$stmt->bindParam(':phone', $this->phone);	
 		$stmt->bindParam(':lastActive', $this->lastActive);
 
-		$stmt->execute();
-		return true;
+            /**
+            *check is user name and email already exist
+            */
+            
+
+           
+         //  if(checkIfExist($email))
+           // {
+               // echo "Email already exist";
+          // }else{
+                
+                $stmt->execute();
+                return true;
+        // }
+            
 		}
 		else{
 			return false;
@@ -97,4 +110,37 @@ class User extends Model{
             return false;
         }     
     }
+    
+    
+    /**
+    
+    public static function checkIfExist($email)
+    {
+        $db = Db::getInstance();
+    $query="select * from users where email = '$email'";
+        $result=mysql_query($query);
+        $numOfRows=mysql_num_rows($result);
+        if($numOfRows==1)
+        {
+            print"An account with that email is already created..<a href ='createAccount.php'>Please enter a new account email.</a>";
+            print"<a href ='createAccount.php'></a>";
+        }
+        else {
+
+
+
+        
+        
+            }
+       
+}
+    
+    
+    */
+    
+    
+    
+    
+    
+    
 }
