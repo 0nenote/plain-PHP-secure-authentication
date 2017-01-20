@@ -28,6 +28,8 @@
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <script src="../js/jquery.js"></script>
     <script src="../js/bootstrap.min.css"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    
 </head>
 
 <body>
@@ -53,12 +55,13 @@
     </div>
 </div> <!-- /container -->
 <div class="container">
-    <form class="form-signin" method="post" action="sendmessage">
+    <form class="form-signin" method="post" action="../message/sendmessage">
         <h2 class="form-signin-heading">Please comment</h2>
         <textarea name='comment' id='comment' cols="27" class="input-block-level" placeholder="Your comment..." required></textarea><br />
-        <button class="btn btn-large btn-primary" type="submit">Submit</button>
-    </form>
-</div> <!-- /container -->
+        <div class="g-recaptcha" data-sitekey="6LclkxIUAAAAACElQa-YT3IoUfF0nbEtPFWtEODp" style="transform:scale(0.755);transform-origin:0 0;"></div>
+          <button class="btn btn-large btn-primary" type="submit">Submit</button>
+        </form>
+      </div> <!-- /container -->
 
 
 </body>
