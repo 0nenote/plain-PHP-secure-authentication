@@ -3,24 +3,62 @@ class UserController extends Controller {
 
     public function __construct() {
     }
-    
-    public function index(){
+
+        public function index(){
         Controller::view('register/index');
     }
     
-	public function register($username,$email,$pwd,$phone){
+	public function register(){
 		
-		
+		$username  = $_POST['username'];
+        $email    = $_POST['email'];
+        $pwd     = $_POST['pwd'];
+        $phone      = $_POST['phone'];
+        $pwd2    = $_POST['pwd2'];
+        
+       if(!isset($username) || trim($username) == '')
+        {
+            echo "You did not fill out the Name fields.";
+        }   
+         if(!isset($email) || trim($email) == '')
+        {
+            echo "You did not fill out the email fields.";
+        }   
+         if(!isset($pwd) || trim($pwd) == '')
+        {
+            echo "You did not fill out the required fields.";
+        }  
+         if(!isset($phone) || trim($phone) == '')
+        {
+            echo "You did not fill out the required fields.";
+        }   
+        if(!isset($pwd2) || trim($pwd2) == '')
+        {
+            echo "You did not fill out the required fields.";
+        }  
+        
+        
+      if(($_POST ["pwd"])!=($_POST["pwd2"]))
+        {
+            echo "Password does not match try again";
+       }
+       else
+       {
         $today = date("Y-m-d H:i:s");   
 		$user = new User(0, $username, $email, $pwd, $phone, $today);
 		$userAdded = $user->addUser();
-		if($userAdded){
-		  print_r($user);
-        } else {
-		  echo 'adding user failed';
-		}
+		if($userAdded)
+        {
+			echo 'adding user succeeded!!!!!!! yayyyy party time';
+		} 
+           
+          else 
+           {
+			echo 'adding user failed';
+		   }
 		
-		switch(Controller::validateInput()){ 
+       }
+	switch(Controller::validateInput()){ 
 			
 			case 1 :
 				
