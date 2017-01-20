@@ -21,17 +21,10 @@ class UserController extends Controller {
     }
     
     public function findUser($id){
-		
 		$userFound = User::findUserById($id);
-		
-		if(!empty($userFound->getId())){
+       if(!empty($userFound->getId())){
 			echo "user asdsdfghjhgfds";
-		}
-		
-		
-	
-	
-		
+		}	
 		
         
     }

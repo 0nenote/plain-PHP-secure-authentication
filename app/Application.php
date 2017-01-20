@@ -3,7 +3,7 @@ require_once('controllers/controller.php');
 
 class Application {
     
-    protected $controller   = "home_controller";
+    protected $controller   = "login_controller";
     protected $method       = 'index';
     protected $params       = [];
     
@@ -11,20 +11,15 @@ class Application {
        $url = $this->parseUrl();
         
         switch($url[0]){
-            case "home" :
-                $this->controller = "home_controller";
-                break;
             case "login" :
                 $this->controller = "login_controller";
                 break;
             case "register" :
-                $this->controller = "user_controller";
+                $this->controller = "register_controller";
                 break;
             case "user" :
                 $this->controller = "user_controller";
                 break;
-            default : 
-                 $this->controller = "home_controller";
                 
         }
 
@@ -37,7 +32,7 @@ class Application {
          $ctrName =  ucfirst($splitctrl[0]).'Controller';
          
 		 require_once('models/model.php');
-          require_once('models/user.php');
+         require_once('models/user.php');
 		  
          $this->controller = new $ctrName;
         

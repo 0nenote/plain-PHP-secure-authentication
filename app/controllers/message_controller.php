@@ -2,9 +2,6 @@
 
 class MessageController extends Controller
 {
-	
-	public function __construct(){
-	}
 		
 	public function index(){
 			
