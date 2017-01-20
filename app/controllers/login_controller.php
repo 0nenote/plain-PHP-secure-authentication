@@ -2,7 +2,7 @@
 
 class LoginController extends Controller {
     
-    public $isCorrect = true ;
+	
     public function index(){
         Controller::view('login/index');
     }

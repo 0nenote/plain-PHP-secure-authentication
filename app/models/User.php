@@ -46,13 +46,20 @@ class User extends Model{
         
 		
 		if(Model::checkEmail($this->email) && Model::checkLetters($this->name) && Model::checkPhone($this->phone) && Model::checkPass($this->pass)){
+		
+		/********************************/ 			  // XSS mitigation part
+ 		
+			//<-!xXx>360NoScopE<xXx!->@email.com
+		
+		/********************************/
+				
 		$db = Db::getInstance();
-	    $stmt = $db->prepare("INSERT INTO dbe1kmonon1.users(username, password, email, phonenumber, date) VALUES (:name, :pwd, :email, :phone, :date)");
+	    $stmt = $db->prepare("INSERT INTO users(name, password, email, phone, lastActive) VALUES (:name, :pwd, :email, :phone, :lastActive)");
 		$stmt->bindParam(':name', $this->name);
 		$stmt->bindParam(':pwd', $this->pass);
 		$stmt->bindParam(':email', $this->email);
 		$stmt->bindParam(':phone', $this->phone);	
-		$stmt->bindParam(':date', $this->lastActive);
+		$stmt->bindParam(':lastActive', $this->lastActive);
 
 		$stmt->execute();
 		return true;

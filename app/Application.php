@@ -14,11 +14,11 @@ class Application {
             case "login" :
                 $this->controller = "login_controller";
                 break;
-            case "register" :
-                $this->controller = "register_controller";
-                break;
             case "user" :
                 $this->controller = "user_controller";
+                break;
+			case "message" :
+                $this->controller = "message_controller";
                 break;
                 
         }
@@ -33,6 +33,7 @@ class Application {
          
 		 require_once('models/model.php');
          require_once('models/user.php');
+		 require_once('models/message.php');
 		  
          $this->controller = new $ctrName;
         
