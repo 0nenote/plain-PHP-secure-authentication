@@ -1,137 +1,162 @@
 <?php
 
+/**
+ * Class User
+ */
 class User extends Model{
 
+    /**
+     * @var int
+     */
     private $id;
+    /**
+     * @var string
+     */
     private $name;
+    /**
+     * @var string
+     */
     private $email;
+    /**
+     * @var string
+     */
     private $pass;
+    /**
+     * @var string
+     */
     private $phone;
+    /**
+     * @var string
+     */
     private $lastActive;
-    
-    public function __construct($id = 0, $name = '', $email='',$pass='',$phone='',$lastActive='') {
+
+    /**
+     * User constructor.
+     * @param int $id
+     * @param string $name
+     * @param string $email
+     * @param string $pass
+     * @param string $phone
+     * @param string $lastActive
+     */
+    public function __construct($id = 0, $name = '', $email='', $pass='', $phone='', $lastActive='') {
       $this->id         = $id;
       $this->name       = $name;
       $this->email      = $email;
       $this->pass       = password_hash($pass, PASSWORD_BCRYPT); //hash with a safe salt
       $this->phone      = $phone;
-      $this->lastActive = $lastActive;   
+      $this->lastActive = $lastActive;
+      parent::__construct();
     }
-	
-	public function getName(){
+
+    /**
+     * @return string
+     */
+    public function getName(){
 		return $this->name;
 	}
-	public function getEmail(){
+
+    /**
+     * @return string
+     */
+    public function getEmail(){
 		return $this->email;
 	}
-	public function getPass(){
+
+    /**
+     * @return string
+     */
+    public function getPass(){
 		return $this->pass;
 	}
-	public function getPhone(){
+
+    /**
+     * @return string
+     */
+    public function getPhone(){
 		return $this->phone;
 	}
-	public function getLastActive(){
+
+    /**
+     * @return string
+     */
+    public function getLastActive(){
 		return $this->lastActive;
 	}
-	public function getId(){
+
+    /**
+     * @return int
+     */
+    public function getId(){
 		return $this->id;
 	
 	}
+    /**
+     *
+     */
+    public function index(){
+        echo "User/index";
+    }
 
-	public function addUser(){
-        
-		
-		if(Model::checkEmail($this->email) && Model::checkLetters($this->name) && Model::checkPhone($this->phone) && Model::checkPass($this->pass)){
-		
-		/********************************/ 			  // XSS mitigation part
- 		
-			//<-!xXx>360NoScopE<xXx!->@email.com
-		
-		/********************************/
-				
-		$db = Db::getInstance();
-	    $stmt = $db->prepare("INSERT INTO users(name, password, email, phone, lastActive) VALUES (:name, :pwd, :email, :phone, :lastActive)");
-		$stmt->bindParam(':name', $this->name);
-		$stmt->bindParam(':pwd', $this->pass);
-		$stmt->bindParam(':email', $this->email);
-		$stmt->bindParam(':phone', $this->phone);	
-		$stmt->bindParam(':lastActive', $this->lastActive);
+    /**
+     * @return bool
+     */
+    public function addUser()
+    {
+		if (Model::checkEmail($this->email) && Model::checkLetters($this->name) && Model::checkPhone($this->phone) && Model::checkPass($this->pass)) {
+
+            /********************************/ 			  // XSS mitigation part
+
+                //<-!xXx>360NoScopE<xXx!->@email.com
+
+            /********************************/
+
+            $stmt = $this->databaseConnection->prepare("INSERT INTO users(name, password, email, phone, lastActive) VALUES (:name, :pwd, :email, :phone, :lastActive)");
+            $stmt->bindParam(':name', $this->name);
+            $stmt->bindParam(':pwd', $this->pass);
+            $stmt->bindParam(':email', $this->email);
+            $stmt->bindParam(':phone', $this->phone);
+            $stmt->bindParam(':lastActive', $this->lastActive);
 
             /**
             *check is user name and email already exist
             */
-            
 
-           
-         //  if(checkIfExist($email))
-           // {
-               // echo "Email already exist";
-          // }else{
-                
-                $stmt->execute();
-                return true;
-        // }
-            
-		}
-		else{
+            $stmt->execute();
+            return true;
+
+		} else {
 			return false;
 		}
-		
-
-		
 	}
-    
+
+    /**
+     * @param $id
+     * @return User
+     */
     public function findUserById($id){
       $id = intval($id);
-	  $db = Db::getInstance();
-      $req = $db->prepare('SELECT * FROM users WHERE id = :id');
+      $req = $this->databaseConnection->prepare('SELECT * FROM users WHERE id = :id');
       $req->execute(array('id' => $id));
       $user= $req->fetch();
-	  
       return new User($user['id'], $user['username'], $user['email'],$user['password'],$user['phonenumber'],$user['date']);  
     }
-    
-     public static function authenticate($email, $password){
-      $db = Db::getInstance();
-      $req = $db->prepare('SELECT email,password FROM users WHERE email = :email');
+
+    /**
+     * Todo remove static
+     * @param $email
+     * @param $password
+     * @return bool
+     */
+    public static function authenticate($email, $password){
+      $req = Db::getInstance()->prepare('SELECT email,password FROM users WHERE email = :email');
       $req->execute(array('email' => $email));
       $user= $req->fetch();
         if(password_verify($password,$user['password'])){
             return true;
         }
          return false;
+
+    
     }
-    
-    
-    /**
-    
-    public static function checkIfExist($email)
-    {
-        $db = Db::getInstance();
-    $query="select * from users where email = '$email'";
-        $result=mysql_query($query);
-        $numOfRows=mysql_num_rows($result);
-        if($numOfRows==1)
-        {
-            print"An account with that email is already created..<a href ='createAccount.php'>Please enter a new account email.</a>";
-            print"<a href ='createAccount.php'></a>";
-        }
-        else {
-
-
-
-        
-        
-            }
-       
-}
-    
-    
-    */
-    
-    
-    
-    
-    
-    
 }

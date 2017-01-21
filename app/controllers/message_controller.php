@@ -1,59 +1,69 @@
-<?php 
+<?php
 
+/**
+ * Class MessageController
+ */
 class MessageController extends Controller
 {
-		
-	public function index(){
-			Controller::view('message/index');
-		}	
-		
-	
-	public function sendMessage(){
-		
-		
-		switch(Controller::validateInput()){
+    /**
+     * @var null
+     */
+    private $message = null;
+
+    /**
+     * MessageController constructor.
+     */
+    public function __construct ()
+    {
+        $this->message = new Message();
+    }
+
+    /**
+     * the index controller
+     */
+    public function index()
+    {
+			$this->view('message/index');
+    }
+
+
+    /**
+     * The controller used to send messages
+     */
+    public function sendMessage(){
+		switch ($this->validateInput()) {
 			
 			case 1 :
 				$comment = $_POST["comment"];
-				$today = date("Y-m-d H:i:s");   
-				$messageSended = Message::insertMessage($comment, $today);
-			
-					if($messageSended){
+				$today = date("Y-m-d H:i:s");
+					if ($this->message->insertMessage($comment, $today)) {
 						echo "message added successfully";
-					}
-					else {
+					} else {
 						echo "message was not added";
 					}
-					
-				break;
-			
+	    	    break;
 			case 2: 
 				echo "captcha was not checked";
 				break;
-			
 			case 3:
 				echo "captcha is missing from site";
 				break;
-			
 			default:
 				echo "unknown error";
 			
 		}
-		
 	}
-	
-	public function deleteMessage($id){
-			
-		$messageDeleted = Message::deleteMessage($id);
-		
-		if($messageDeleted){
+
+    /**
+     * @param $id
+     */
+    public function deleteMessage($id)
+    {
+		if ($this->message->deleteMessage($id)) {
 			echo "message deleted successfully";
-		}
-		else{
+		} else {
 			echo "message was not deleted";
 		}
-	
-				
 	}
 
 }
