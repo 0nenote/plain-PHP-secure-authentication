@@ -8,14 +8,15 @@ class MessageController extends Controller
     /**
      * @var null
      */
-    private $message = null;
-
+  //  private $message = null;
+    private $messageList;
     /**
      * MessageController constructor.
      */
     public function __construct ()
     {
-        $this->message = new Message();
+        $this->message = new Message(0,'','');
+     
     }
 
     /**
@@ -26,32 +27,48 @@ class MessageController extends Controller
 			$this->view('message/index');
     }
 
+    public function getAllMessages(){
+        //The id should come from the session
+        //Set to 1 for now
+        //Fetching all messages from the user to pass to the view
+
+        return $this->message->getMessages(1);
+    }
+
 
     /**
      * The controller used to send messages
      */
     public function sendMessage(){
+          $error = false;
 		switch ($this->validateInput()) {
-			
+			//TODO pass error message to error view
+          
 			case 1 :
 				$comment = $_POST["comment"];
 				$today = date("Y-m-d H:i:s");
-					if ($this->message->insertMessage($comment, $today)) {
-						echo "message added successfully";
-					} else {
-						echo "message was not added";
-					}
+               
+				if (!$this->message->insertMessage($comment, $today)) {
+						 $error = true;
+					} 
 	    	    break;
 			case 2: 
-				echo "captcha was not checked";
+				 $error = true;
 				break;
 			case 3:
-				echo "captcha is missing from site";
+					 $error = true;
 				break;
 			default:
-				echo "unknown error";
+				 $error = true;
 			
 		}
+         $this->view('message/index');
+        if($error){
+             $this->view('error/index');
+        } else{
+            $this->view('success/index');
+        }
+          
 	}
 
     /**

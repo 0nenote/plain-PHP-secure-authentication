@@ -1,53 +1,33 @@
-<?php
-
-//
-//    // Variable
-//    $activeuser = 1;
-//
-//    // Crear conexion
-//    $conn = new mysqli("localhost", "root", "", "dbe1kmonon1");
-//
-//    // Comprobar que la conexion esta bien
-//    if ($conn->connect_error) {
-//        die("Connection failed: " . $conn->connect_error);
-//    }
-//
-//    // Generar la query y ejecutarla
-//    $sql = "SELECT comment, date FROM comments WHERE users_id = " . $activeuser;
-//    $result = $conn->query($sql);
-
-?>
-
 <!DOCTYPE html>
 <html>
 <?php include '../app/views/header.php'; ?>
+<script src='https://www.google.com/recaptcha/api.js'></script>
 <body>
 <div class="container">
-    <div class="well well-lg">
-        <ul>
+   <h2>Messages of TestUser</h2>
         <?php
         // Comprobar que tienes filas
-        if ($result->num_rows > 0) {
+        if (count($this->getAllMessages()) > 0) {
             // Sacar los datos de cada fila
-            while($row = $result->fetch_assoc()) {
-
-				echo $row["date"];
-				echo "<li>".$row["comment"]."</li>";
+            foreach ($this->getAllMessages() as $message) {
+                  echo  '<div class="well well-lg">';
+                  echo  $message->getMessage() .'</br>';
+                  echo '<p class="bg-info">'.$message->getDateAdded().'</p>';
+                  echo ' </div>';
             }
         } else {
             ?>
-            <li> No comments.</li>
+            <p class="text-info">No messages to show</p>
             <?php
         }
         ?>
-        </ul>
-    </div>
+   
 </div> <!-- /container -->
 <div class="container">
     <form class="form-signin" method="post" action="../message/sendmessage">
-        <h2 class="form-signin-heading">Please comment</h2>
+        <h2 class="form-signin-heading">Add a message</h2>
         <textarea name='comment' id='comment' cols="27" class="input-block-level" placeholder="Your comment..." required></textarea><br />
-        <div class="g-recaptcha" data-sitekey="6LclkxIUAAAAACElQa-YT3IoUfF0nbEtPFWtEODp" style="transform:scale(0.755);transform-origin:0 0;"></div>
+        <div class="g-recaptcha" data-sitekey="6LclkxIUAAAAACElQa-YT3IoUfF0nbEtPFWtEODp" style="transform:scale(0.715);transform-origin:0 0;"></div>
           <button class="btn btn-large btn-primary" type="submit">Submit</button>
         </form>
       </div> <!-- /container -->
