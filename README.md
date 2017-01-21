@@ -9,10 +9,7 @@
 >Still to do.....
 
 # Comment list retrieval from Model > Controller > View (Logic is in view now)
-##### show list user comments
-##### Encrypt and decrypt comments
 ##### Passing data to view for error handling
 ##### Registration check if e-mail already exists
-##### Url bug (form action appends to url)
-##### User session while logged in
+##### User session implementation
 ##### login lock after x tries

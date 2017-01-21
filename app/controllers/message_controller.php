@@ -31,7 +31,6 @@ class MessageController extends Controller
         //The id should come from the session
         //Set to 1 for now
         //Fetching all messages from the user to pass to the view
-
         return $this->message->getMessages(1);
     }
 

@@ -11,7 +11,7 @@
         <input type="password" name= "password"class="input-block-level" placeholder="Password" required>		
 		<div class="g-recaptcha" data-sitekey="6LclkxIUAAAAACElQa-YT3IoUfF0nbEtPFWtEODp" style="transform:scale(0.715);transform-origin:0 0;"></div>
        <button class="btn btn-large btn-primary" type="submit">Sign in</button>
-         <a href="user/signup" class="btn btn-success">Get Started...</a>
+         <a href="signup" class="btn btn-success">Get Started...</a>
       </form>
     </div> <!-- /container -->
 </body>

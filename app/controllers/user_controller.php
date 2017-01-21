@@ -20,75 +20,75 @@ class UserController extends Controller {
         $pwd     = $_POST['pwd'];
         $phone      = $_POST['phone'];
         $pwd2    = $_POST['pwd2'];
+        $error = false;
+        $errorMessage = '';
         
+        //TODO render error page with coresponding errror message
        if(!isset($username) || trim($username) == '')
         {
-            echo "You did not fill out the Name fields.";
+            $error = true;
+           $errorMessage .= '<br>'. 'You did not fill out the Name fields.';
         }   
          if(!isset($email) || trim($email) == '')
         {
-            echo "You did not fill out the email fields.";
+             $error = true;
+             $errorMessage .= '<br>'.'You did not fill out the email fields.';
         }   
          if(!isset($pwd) || trim($pwd) == '')
         {
-            echo "You did not fill out the required fields.";
+           $error = true;
+            $errorMessage .= '<br>'. 'You did not fill out the required fields.';
         }  
          if(!isset($phone) || trim($phone) == '')
         {
-            echo "You did not fill out the required fields.";
+             $error = true;
+           $errorMessage .= '<br>'. 'You did not fill out the required fields.';
         }   
         if(!isset($pwd2) || trim($pwd2) == '')
         {
-            echo "You did not fill out the required fields.";
+            $error = true;
+             $errorMessage .= '<br>'. 'You did not fill out the required fields.';
         }  
-        
-        
+         
       if(($_POST ["pwd"])!=($_POST["pwd2"]))
         {
-            echo "Password does not match try again";
+            $error = true;
+            $errorMessage .= '<br>'. 'Password does not match try again';
        }
-       else
-       {
-        $today = date("Y-m-d H:i:s");   
-		$user = new User(0, $username, $email, $pwd, $phone, $today);
-		$userAdded = $user->addUser();
-		if($userAdded)
-        {
-			echo 'adding user succeeded!!!!!!! yayyyy party time';
-		} 
-           
-          else 
-           {
-			echo 'adding user failed';
-		   }
-		
-       }
+        
 	switch(Controller::validateInput()){ 
-			
 			case 1 :
-				
-				$today = date("Y-m-d H:i:s");   
+                $today = date("Y-m-d H:i:s");   
 				$user = new User(0, $username, $email, $pwd, $phone, $today);
 				$userAdded = $user->addUser();
-					if($userAdded){
-						echo "user added successfully";
-					} else {
-						
-						echo 'adding user failed';
-					}
-					
+				if(!$userAdded){
+                     $error = true;
+				     $errorMessage .= '<br>'.'adding user failed';
+					}	
 				break;
 			case 2: 
-				echo "captcha was not checked";
+                $error = true;
+				$errorMessage .= '<br>'.'captcha was not checked';
 				break;
 			
 			case 3:
-				echo "captcha is missing from site";
+                $error = true;
+				$errorMessage .= '<br>'.'captcha is missing from site';
 				break;
 			
 			default:
-				echo "unknown error";
+                $error = true;
+				$errorMessage .= '<br>'.'unknown error';
 		}
+        
+        if($error){
+             Controller::view('register/index');
+              Controller::view('error/index');
+              echo $errorMessage;
+        } else{
+             Controller::view('login/index');
+             Controller::view('success/index');
+        }
     }
     
     public function findUser($id){
@@ -105,7 +105,9 @@ class UserController extends Controller {
             $password  = $_POST['password'];
             $isValid = User::authenticate($email,$password);
         if($isValid){
-             Controller::view('message/index');
+            require_once('message_controller.php');
+            call_user_func_array([new MessageController,'index'],[]);
+            // Controller::view('message/index');
         } else{
           $isCorrect = false;
            Controller::view('login/index');

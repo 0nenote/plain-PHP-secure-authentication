@@ -32,10 +32,11 @@ class Message extends Model
 		/********************************/ 			  // XSS mitigation part
 		$strippedMessage= Model::stripTags($message); //strip HTML tags from message
 		/********************************/
-		
+		$encrypted_message = $this->encryptMessage($message);
+        
 		$stmt = $this->databaseConnection->prepare("INSERT INTO comments(comment, postDate,users_id) VALUES (:comment, :date, :user_id)");
 
-		$stmt->bindParam(':comment', $strippedMessage);
+		$stmt->bindParam(':comment', $encrypted_message);
 		$stmt->bindParam(':date', $today);
         //TODO Change to active user
         $uId = 1;
@@ -53,9 +54,25 @@ class Message extends Model
     
         return $messages;
     }
+    
+    public function encryptMessage($message){
+        $encryptionKey = parse_ini_file('../config/app.ini');
+        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+        $encrypted = openssl_encrypt($message, 'aes-256-cbc', $encryptionKey['message_key'], 0, $iv);
+        
+        return base64_encode($encrypted . '::' . $iv );
+    }
+    
+    public function decryptMessage($message){
+    $encryptionKey = parse_ini_file('../config/app.ini');
+    list($encrypted_message, $iv) = explode('::', base64_decode($message), 2);
+    return openssl_decrypt($encrypted_message, 'aes-256-cbc',
+                           $encryptionKey['message_key'], 0, $iv);
+    }
         
     public function getMessage(){
-        return $this->comment;
+        
+        return $this->decryptMessage($this->comment);
     }
     
     public function getDateAdded(){

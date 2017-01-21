@@ -35,7 +35,8 @@ class Controller
      */
     protected function validateInput ()
     {
-		$secretKey = "6LclkxIUAAAAADdEiNz2c3TyTA3OBxrWuknjxHKY";
+        $keyStorage = parse_ini_file('../config/app.ini');
+		$secretKey = $keyStorage['captcha_key'];
 		
 		if (isset($_POST['g-recaptcha-response']) )
 		{

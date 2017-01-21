@@ -14,7 +14,7 @@
         <input name = "pwd" type="password" class="input-block-level" placeholder="Password" required>
         <input name = "pwd2" type="password" class="input-block-level" placeholder="Password again" required>
         <div class="g-recaptcha" data-sitekey="6LclkxIUAAAAACElQa-YT3IoUfF0nbEtPFWtEODp" style="transform:scale(0.715);transform-origin:0 0;"></div>
-        <button class="btn btn-large btn-primary" type="submit">Sign up</button>
+        <button  class="btn btn-success" type="submit">Register</button>
       </form>
     </div> <!-- /container -->
 </body>
