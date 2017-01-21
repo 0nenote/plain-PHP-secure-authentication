@@ -5,10 +5,13 @@ class UserController extends Controller {
     }
 
         public function index(){
-        Controller::view('login/index');
+        Controller::view('home/index');
     }
      public function signup(){
         Controller::view('register/index');
+    }
+     public function signin(){
+        Controller::view('login/index');
     }
     
 	public function register(){
