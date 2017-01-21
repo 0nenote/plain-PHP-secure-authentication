@@ -3,7 +3,7 @@ require_once('controllers/controller.php');
 
 class Application {
     
-    protected $controller   = "login_controller";
+    protected $controller   = "home_controller";
     protected $method       = 'index';
     protected $params       = [];
     
@@ -11,8 +11,8 @@ class Application {
        $url = $this->parseUrl();
         
         switch($url[0]){
-            case "login" :
-                $this->controller = "login_controller";
+            case "user" :
+                $this->controller = "home_controller";
                 break;
             case "user" :
                 $this->controller = "user_controller";
@@ -20,7 +20,6 @@ class Application {
 			case "message" :
                 $this->controller = "message_controller";
                 break;
-                
         }
 
         if(stream_resolve_include_path('controllers/' . $this->controller .'.php')){
@@ -44,7 +43,7 @@ class Application {
             }
         }
        $this->params = $url ? array_values($url) : [];
-        call_user_func_array([$this->controller,$this->method],$this->params);
+       call_user_func_array([$this->controller,$this->method],$this->params);
     }
     
     protected function parseUrl(){

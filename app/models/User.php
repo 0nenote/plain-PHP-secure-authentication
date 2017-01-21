@@ -13,7 +13,7 @@ class User extends Model{
       $this->id         = $id;
       $this->name       = $name;
       $this->email      = $email;
-      $this->pass       = $pass;
+      $this->pass       = password_hash($pass, PASSWORD_BCRYPT); //hash with a safe salt
       $this->phone      = $phone;
       $this->lastActive = $lastActive;   
     }
@@ -38,10 +38,6 @@ class User extends Model{
 	
 	}
 
-    public function index(){
-        echo "User/index";
-    }
-    
 	public function addUser(){
         
 		
@@ -100,15 +96,10 @@ class User extends Model{
       $req = $db->prepare('SELECT email,password FROM users WHERE email = :email');
       $req->execute(array('email' => $email));
       $user= $req->fetch();
-        if($password === $user['password']){
+        if(password_verify($password,$user['password'])){
             return true;
-        } else{
-            if($user['password'] === $password){
-                  echo $user['password'] . ' ' . $user['email'];
-            }
-          
-            return false;
-        }     
+        }
+         return false;
     }
     
     

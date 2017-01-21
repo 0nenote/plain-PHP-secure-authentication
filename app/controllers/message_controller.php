@@ -4,16 +4,12 @@ class MessageController extends Controller
 {
 		
 	public function index(){
-			
 			Controller::view('message/index');
 		}	
 		
-		
-
 	
 	public function sendMessage(){
 		
-	
 		
 		switch(Controller::validateInput()){
 			

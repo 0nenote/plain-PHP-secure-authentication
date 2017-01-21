@@ -24,22 +24,26 @@ class Message extends Model{
 		
 		return $stmt->execute();
 	}
+    
+    public function getMessages($user){
+        $db = Db::getInstance();
+		$stmt = $db->prepare("SELECT comment, date FROM comments WHERE users_id = :id");
+		$stmt->bindParam(':id', $strippedId);
+		 $stmt->execute();  
+        return $sth->fetchAll();
+    }
 	
 	public function deleteMessage($id){
 		$db = Db::getInstance();
-		
-		
+
 		/********************************/ 	// XSS mitigation part
 		$strippedId= Model::stripTags($id); //strip HTML tags from message 
-		
 		/********************************/
 		
 		$stmt = $db->prepare("DELETE FROM comments WHERE id = :id");
 		
 		$stmt->bindParam(':id', $strippedId);
-		return $stmt->execute();
-		
-		
+		return $stmt->execute();		
 	}
 	
 }

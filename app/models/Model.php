@@ -45,7 +45,7 @@ class Model {
 	}
 	public function checkPhone($data){ //check if valid phone number
     
-		$numbersOnly = ereg_replace("[^0-9]", "", $data);
+		$numbersOnly = preg_replace("[^0-9]", "", $data);
 		$numberOfDigits = strlen($numbersOnly);
 			if ($numberOfDigits == 7 or $numberOfDigits == 10) {
 			
