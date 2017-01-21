@@ -4,9 +4,14 @@
 <?php include '../app/views/header.php'; ?>
 <script src='https://www.google.com/recaptcha/api.js'></script>
 <body>
-	<div class="container">
-        <p class="form-signin-heading"><br>New User? <a href="user/signup"> Register here</p>
-      </form>
+	<div class="container" class="form-signin">
+      
+        <h3 class="form-signin-heading">Welcome to our secure diary app</h3>
+      <a href="user/signup" class="btn btn-success">Get Started...</a>
+          <a href="user" class="btn btn-large btn-primary"  >Log in</a>
+    
+
+    
     </div> 
 </body>
 </html>

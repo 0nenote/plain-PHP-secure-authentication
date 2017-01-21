@@ -11,7 +11,7 @@ class Application {
        $url = $this->parseUrl();
         
         switch($url[0]){
-            case "user" :
+            case "home" :
                 $this->controller = "home_controller";
                 break;
             case "user" :
