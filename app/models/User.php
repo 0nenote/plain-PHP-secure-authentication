@@ -149,10 +149,17 @@ class User extends Model{
      * @return bool
      */
     public static function authenticate($email, $password){
-      $req = Db::getInstance()->prepare('SELECT email,password FROM users WHERE email = :email');
+      $req = Db::getInstance()->prepare('SELECT * FROM users WHERE email = :email');
       $req->execute(array('email' => $email));
       $user= $req->fetch();
         if(password_verify($password,$user['password'])){
+            //pass a user-array to the session
+            $_SESSION['user'] = [
+                'username' => $user['username'],
+                'id' => $user['id'],
+                'email' => $user['email'],
+                'last_active' => $user['last_active'],
+            ];
             return true;
         }
          return false;
