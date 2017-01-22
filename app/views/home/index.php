@@ -10,8 +10,6 @@
       <a href="user/signup" class="btn btn-success">Get Started...</a>
           <a href="user/signin" class="btn btn-large btn-primary"  >Log in</a>
     
-
-    
     </div> 
 </body>
 </html>

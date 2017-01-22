@@ -33,6 +33,7 @@ class Application {
 		 require_once('models/model.php');
          require_once('models/user.php');
 		 require_once('models/message.php');
+         require_once('models/login_attempt.php');
 		  
          $this->controller = new $ctrName;
         

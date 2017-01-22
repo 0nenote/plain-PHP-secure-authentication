@@ -4,24 +4,9 @@
 <script src='https://www.google.com/recaptcha/api.js'></script>
 <body>
 <div class="container">
-   <h2>Messages of TestUser</h2>
-        <?php
-        // Comprobar que tienes filas
-        if (count($this->getAllMessages()) > 0) {
-            // Sacar los datos de cada fila
-            foreach ($this->getAllMessages() as $message) {
-                  echo  '<div class="well well-lg">';
-                  echo  $message->getMessage() .'</br>';
-                  echo '<p class="bg-info">'.$message->getDateAdded().'</p>';
-                  echo ' </div>';
-            }
-        } else {
-            ?>
-            <p class="text-info">No messages to show</p>
-            <?php
-        }
-        ?>
-   
+    <h2>Welcome <kbd>TestUser</kbd></h2>
+    <h4>last active <kbd>21-01-2016 15:55:11</kbd></h4>
+    <?php include 'message_list.php'; ?>
 </div> <!-- /container -->
 <div class="container">
     <form class="form-signin" method="post" action="../message/sendmessage">

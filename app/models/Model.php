@@ -6,7 +6,7 @@
 class Model {
 
     protected $databaseConnection;
-
+    protected $user;
     public function __construct ()
     {
         $this->databaseConnection = Db::getInstance();
