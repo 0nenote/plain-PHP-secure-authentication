@@ -12,4 +12,4 @@
 ##### Passing data to view for error handling
 ##### Registration check if e-mail already exists
 ##### User session implementation
-##### login lock after x tries
+##### login lock after n attempts

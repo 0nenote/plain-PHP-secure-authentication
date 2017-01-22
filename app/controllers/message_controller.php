@@ -15,7 +15,13 @@ class MessageController extends Controller
      */
     public function __construct ()
     {
-        $this->message = new Message(0,'','');
+        
+         require_once('user_controller.php');
+          if (isset($_SESSION['user'])) {
+            $this->message = new Message($_SESSION['user']['id'],'','');
+            return;
+        }
+      
      
     }
 
@@ -24,14 +30,20 @@ class MessageController extends Controller
      */
     public function index()
     {
-			$this->view('message/index');
+           if (!isset($_SESSION['user'])) {
+           	$this->view('/login/index');
+            return;
+        } else{
+               	$this->view('message/index');
+           }
+		
     }
 
     public function getAllMessages(){
         //The id should come from the session
         //Set to 1 for now
         //Fetching all messages from the user to pass to the view
-        return $this->message->getMessages(1);
+        return $this->message->getMessages($_SESSION['user']['id']);
     }
 
 

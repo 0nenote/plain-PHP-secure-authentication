@@ -1,9 +1,11 @@
 <?php
 class UserController extends Controller {
 
+    protected $loginAttempts;
     public function __construct() {
+         require_once('message_controller.php');
+        $this->loginAttempts = new LoginAttempt;
     }
-
         public function index(){
         Controller::view('home/index');
     }
@@ -11,7 +13,16 @@ class UserController extends Controller {
         Controller::view('register/index');
     }
      public function signin(){
-        Controller::view('login/index');
+     if(isset($_SESSION['user'])){
+          call_user_func_array([new MessageController,'index'],[]);
+     } else{
+            Controller::view('login/index');
+     }
+     
+    }
+    public function signOut(){
+        unset($_SESSION['user']);
+        $this->signin();
     }
     
 	public function register(){
@@ -99,25 +110,40 @@ class UserController extends Controller {
 		}
     }
     
+    public function findUserId($email){
+        return User::findUserId($email);
+    }
+    
+
+    
     public function login(){
-        if(isset($_POST['email']) && isset( $_POST['password'])){
+     if(!isset($_SESSION['user'])){
+        if(isset($_POST['email']) && isset($_POST['password'])){
             $email     = $_POST['email'];
             $password  = $_POST['password'];
-            $isValid = User::authenticate($email,$password);
-        if($isValid){
-            require_once('message_controller.php');
+            $userId    = $this->findUserId($email);
+            $clientIp  = $_SERVER['REMOTE_ADDR'];
+        if($this->loginAttempts->getLoginAttempts($userId,$clientIp) >= 3){
+           Controller::view('login/index');
+           Controller::view('error/index');
+           echo 'Too many attempts, user account locked!!';
+        } else{
+        if(User::authenticate($email,$password)){
+            $this->loginAttempts->resetLoginAttempts($userId,$clientIp);
             call_user_func_array([new MessageController,'index'],[]);
             // Controller::view('message/index');
         } else{
-          $isCorrect = false;
+           $this->loginAttempts->incrementLoginAttempt($userId,$clientIp);
            Controller::view('login/index');
            Controller::view('error/index');
+           }
+        } 
+        } else{
+           Controller::view('login/index');
         }
         } else{
-              $isCorrect = false;
-             Controller::view('error/index');
-        }
-     
-    }   
+        call_user_func_array([new MessageController,'index'],[]);
+    }
+    } 
     
 }

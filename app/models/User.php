@@ -141,7 +141,25 @@ class User extends Model{
       $user= $req->fetch();
       return new User($user['id'], $user['username'], $user['email'],$user['password'],$user['phonenumber'],$user['date']);  
     }
-
+    
+        /**
+     * @param $email
+     * @return userId
+     */
+    public static function findUserId($email){
+      $req = Db::getInstance()->prepare('SELECT id FROM users WHERE email = :email');
+      $req->execute(array('email' => $email));
+      $user= $req->fetch();
+        if( $user['id'] == null){
+            return 0;
+        }
+      return $user['id'];
+    }
+    
+    
+    
+    
+   
     /**
      * Todo remove static
      * @param $email
@@ -156,10 +174,10 @@ class User extends Model{
         if(password_verify($password,$user['password'])){
             //pass a user-array to the session
             $_SESSION['user'] = [
-                'username' => $user['username'],
+                'name' => $user['name'],
                 'id' => $user['id'],
                 'email' => $user['email'],
-                'last_active' => $user['last_active'],
+                'last_active' => $user['lastActive'],
             ];
             return true;
         }
