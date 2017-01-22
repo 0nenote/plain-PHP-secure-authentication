@@ -170,7 +170,6 @@ class User extends Model{
       $req = Db::getInstance()->prepare('SELECT * FROM users WHERE email = :email');
       $req->execute(array('email' => $email));
       $user= $req->fetch();
-	  if(password_verify($password,$user['password'])); 
         if(password_verify($password,$user['password'])){
             //pass a user-array to the session
             $_SESSION['user'] = [
