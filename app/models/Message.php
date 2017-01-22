@@ -39,7 +39,7 @@ class Message extends Model
 		$stmt->bindParam(':comment', $encrypted_message);
 		$stmt->bindParam(':date', $today);
         //TODO Change to active user
-        $uId = 1;
+        $uId = $_SESSION['user']['id'];
         $stmt->bindParam(':user_id', $uId);
 		
 		return $stmt->execute();

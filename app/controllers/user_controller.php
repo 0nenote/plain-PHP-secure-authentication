@@ -3,6 +3,7 @@ class UserController extends Controller {
 
     protected $loginAttempts;
     public function __construct() {
+         require_once('message_controller.php');
         $this->loginAttempts = new LoginAttempt;
     }
         public function index(){
@@ -12,7 +13,16 @@ class UserController extends Controller {
         Controller::view('register/index');
     }
      public function signin(){
-        Controller::view('login/index');
+     if(isset($_SESSION['user'])){
+          call_user_func_array([new MessageController,'index'],[]);
+     } else{
+            Controller::view('login/index');
+     }
+     
+    }
+    public function signOut(){
+        unset($_SESSION['user']);
+        $this->signin();
     }
     
 	public function register(){
@@ -107,6 +117,7 @@ class UserController extends Controller {
 
     
     public function login(){
+     if(!isset($_SESSION['user'])){
         if(isset($_POST['email']) && isset($_POST['password'])){
             $email     = $_POST['email'];
             $password  = $_POST['password'];
@@ -119,7 +130,6 @@ class UserController extends Controller {
         } else{
         if(User::authenticate($email,$password)){
             $this->loginAttempts->resetLoginAttempts($userId,$clientIp);
-            require_once('message_controller.php');
             call_user_func_array([new MessageController,'index'],[]);
             // Controller::view('message/index');
         } else{
@@ -131,6 +141,9 @@ class UserController extends Controller {
         } else{
            Controller::view('login/index');
         }
-    }   
+        } else{
+        call_user_func_array([new MessageController,'index'],[]);
+    }
+    } 
     
 }

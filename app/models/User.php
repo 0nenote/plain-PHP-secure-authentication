@@ -173,10 +173,10 @@ class User extends Model{
         if(password_verify($password,$user['password'])){
             //pass a user-array to the session
             $_SESSION['user'] = [
-                'username' => $user['username'],
+                'name' => $user['name'],
                 'id' => $user['id'],
                 'email' => $user['email'],
-                'last_active' => $user['last_active'],
+                'last_active' => $user['lastActive'],
             ];
             return true;
         }
