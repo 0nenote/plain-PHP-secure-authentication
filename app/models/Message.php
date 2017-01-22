@@ -30,9 +30,10 @@ class Message extends Model
     public function insertMessage($message, $today)
     {
 		/********************************/ 			  // XSS mitigation part
-		$strippedMessage= Model::stripTags($message); //strip HTML tags from message
+		$strippedMessage= Model::stripTags($message);
+		$espacedMessage = Model::outputEscape($strippedMessage);//strip HTML tags from message
 		/********************************/
-		$encrypted_message = $this->encryptMessage($message);
+		$encrypted_message = $this->encryptMessage($espacedMessage);
         
 		$stmt = $this->databaseConnection->prepare("INSERT INTO comments(comment, postDate,users_id) VALUES (:comment, :date, :user_id)");
 
